@@ -46,6 +46,9 @@ public class CustomerReturnListGoodsServiceImpl implements CustomerReturnListGoo
 			public Predicate toPredicate(Root<CustomerReturnListGoods> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 				Predicate predicate=cb.conjunction();
 				if(customerReturnListGoods!=null){
+					if(0 != customerReturnListGoods.getCustomerReturnList().getId()){
+						predicate.getExpressions().add(cb.equal(root.get("customerReturnList").get("id"), customerReturnListGoods.getCustomerReturnList().getId()));
+					}
 					if(customerReturnListGoods.getType()!=null && customerReturnListGoods.getType().getId()!=null && customerReturnListGoods.getType().getId()!=1){
 						predicate.getExpressions().add(cb.equal(root.get("type").get("id"), customerReturnListGoods.getType().getId()));
 					}

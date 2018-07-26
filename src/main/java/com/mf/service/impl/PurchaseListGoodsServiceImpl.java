@@ -41,6 +41,9 @@ public class PurchaseListGoodsServiceImpl implements PurchaseListGoodsService{
 			public Predicate toPredicate(Root<PurchaseListGoods> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 				Predicate predicate=cb.conjunction();
 				if(purchaseListGoods!=null){
+					if(0!=purchaseListGoods.getPurchaseList().getId()){
+						predicate.getExpressions().add(cb.equal(root.get("purchaseList").get("id"), purchaseListGoods.getPurchaseList().getId()));
+					}
 					if(purchaseListGoods.getType()!=null && purchaseListGoods.getType().getId()!=null && purchaseListGoods.getType().getId()!=1){
 						predicate.getExpressions().add(cb.equal(root.get("type").get("id"), purchaseListGoods.getType().getId()));
 					}

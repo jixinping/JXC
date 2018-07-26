@@ -41,10 +41,11 @@ public class ReturnListGoodsServiceImpl implements ReturnListGoodsService {
 			public Predicate toPredicate(Root<ReturnListGoods> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 				Predicate predicate = cb.conjunction();
 				if (returnListGoods != null) {
-					if (returnListGoods.getType() != null && returnListGoods.getType().getId() != null
-							&& returnListGoods.getType().getId() != 1) {
-						predicate.getExpressions()
-								.add(cb.equal(root.get("type").get("id"), returnListGoods.getType().getId()));
+					if (0 != returnListGoods.getReturnList().getId()) {
+						predicate.getExpressions().add(cb.equal(root.get("returnList").get("id"), returnListGoods.getReturnList().getId()));
+					}
+					if (returnListGoods.getType() != null && returnListGoods.getType().getId() != null && returnListGoods.getType().getId() != 1) {
+						predicate.getExpressions().add(cb.equal(root.get("type").get("id"), returnListGoods.getType().getId()));
 					}
 					if (StringUtil.isNotEmpty(returnListGoods.getCodeOrName())) {
 						predicate.getExpressions()

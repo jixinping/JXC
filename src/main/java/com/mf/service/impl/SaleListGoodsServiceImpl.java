@@ -46,6 +46,9 @@ public class SaleListGoodsServiceImpl implements SaleListGoodsService{
 			public Predicate toPredicate(Root<SaleListGoods> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 				Predicate predicate=cb.conjunction();
 				if(saleListGoods!=null){
+					if(0!=saleListGoods.getSaleList().getId()){
+						predicate.getExpressions().add(cb.equal(root.get("saleList").get("id"), saleListGoods.getSaleList().getId()));
+					}
 					if(saleListGoods.getType()!=null && saleListGoods.getType().getId()!=null && saleListGoods.getType().getId()!=1){
 						predicate.getExpressions().add(cb.equal(root.get("type").get("id"), saleListGoods.getType().getId()));
 					}

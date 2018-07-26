@@ -131,10 +131,12 @@ public class SaleListAdminController {
 		for(SaleList sl:saleListList){
 			saleListGoods.setSaleList(sl);
 			List<SaleListGoods> slgList=saleListGoodsService.list(saleListGoods);
+			System.out.println("商品销售统计商品list:"+sl.toString()+"****"+slgList.toString());
 			sl.setSaleListGoodsList(slgList);
 		}
 		resultMap.put("rows", saleListList);
 		logService.save(new Log(Log.SEARCH_ACTION,"商品销售统计查询"));
+		System.out.println("商品销售统计:"+saleListList.toString());
 		return resultMap;
 	}
 	
