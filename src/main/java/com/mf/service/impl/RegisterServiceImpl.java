@@ -33,16 +33,17 @@ public class RegisterServiceImpl implements IRegisterService {
 					&& register.getSecretKey().equals(encoderByMd5(register.getCompanyName()))
 					&& StringUtil.isNotEmpty(register.getRegisterTime().toString())) {
 				//已正常注册
-				return null;
+				return "success";
 			}
-			
-			if(StringUtil.isNotEmpty(register.getTrialTime().toString())) {
+			if(null== register.getTrialTime() || StringUtil.isEmpty(register.getTrialTime().toString())) {
+				//未点击试用
+				return "unuse";
+			}
+			if(register.getTrialTime().getTime()<new Date().getTime()) {
 				//试用期已到
-				return "";
+				return "expired";
 			}
-			register.setTrialTime(getForwardMoth());
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			return format.format(register.getTrialTime());
+			return null;
 		} catch(Exception e) {
 			return null;
 		}
@@ -68,12 +69,16 @@ public class RegisterServiceImpl implements IRegisterService {
 	
 	@Override
 	public String onTrial(Register register) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		if(register.getTrialTime().getTime()<new Date().getTime()) {
+			//试用期已到
+			return "expired";
+		}
 		if(StringUtil.isNotEmpty(register.getTrialTime().toString())) {
 			//已试用，不允许再次试用
-			return "";
+			return format.format(register.getTrialTime());
 		}
 		register.setTrialTime(getForwardMoth());
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return format.format(register.getTrialTime());
 	}
 

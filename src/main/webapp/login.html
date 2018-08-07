@@ -22,6 +22,7 @@ canvas{z-index:-1;position:absolute;}
 	    dotColor: '#5cbdaa',
 	    lineColor: '#5cbdaa'
 	  });
+	  registerTest();
 	  
 	  $("#loginBtn").click(function(){
 		 
@@ -56,6 +57,20 @@ canvas{z-index:-1;position:absolute;}
 	  
 	});
 	
+	function registerTest() {
+		$.post("/register/registerTest",function(result){
+			alert(result.status);
+			if(result.status=='expired'){
+				document.getElementById("register").style.display="block";
+				document.getElementById("fade").style.display="block";
+				$('#trial').hide();
+				alert("试用已到期，请注册试用！");
+			} else if(result.status=='unuse') {
+				document.getElementById("register").style.display="block";
+				document.getElementById("fade").style.display="block";
+			}
+		 });
+	}
 	
 	function saveRole(){
 		var roleId=$("input[name='role']:checked").val();
@@ -101,6 +116,13 @@ canvas{z-index:-1;position:absolute;}
           </div>
           <br/>
           <input type="button" value="提交" onclick="saveRole()"/>
+	</div> 
+	<div id="register" class="white_content"> 
+          <input type="text" id="secretKey" placeholder="请输入秘钥"/>
+          <br/>
+          <br/>
+          <input type="button" value="注册" onclick="register()"/>
+          <input type="button" id="trial" value="试用" onclick="onTrial()"/>
 	</div> 
 <div id="fade" class="black_overlay"> 
 </div> 
