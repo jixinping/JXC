@@ -22,10 +22,9 @@ canvas{z-index:-1;position:absolute;}
 	    dotColor: '#5cbdaa',
 	    lineColor: '#5cbdaa'
 	  });
+	 
 	  registerTest();
-	  
 	  $("#loginBtn").click(function(){
-		 
 		  $.post("/user/login",{userName:$("#userName").val(),password:$("#password").val(),"imageCode":$("#imageCode").val()},function(result){
 			 if(result.success){
 				 if(result.roleSize==1){
@@ -59,15 +58,37 @@ canvas{z-index:-1;position:absolute;}
 	
 	function registerTest() {
 		$.post("/register/registerTest",function(result){
-			alert(result.status);
 			if(result.status=='expired'){
+				alert("试用已到期，请注册试用！");
 				document.getElementById("register").style.display="block";
 				document.getElementById("fade").style.display="block";
 				$('#trial').hide();
-				alert("试用已到期，请注册试用！");
 			} else if(result.status=='unuse') {
 				document.getElementById("register").style.display="block";
 				document.getElementById("fade").style.display="block";
+			}
+		 });
+	}
+	
+	function register(){
+		var secretKey=$("#secretKey").val();
+		$.post("/register/register",{secretKey:secretKey},function(result){
+			if(result.status){
+				alert('注册成功！');
+				document.getElementById("register").style.display="none";
+				document.getElementById("fade").style.display="none";
+			} else {
+				alert('注册失败，秘钥不正确！');
+			}
+		 });
+	}
+	
+	function onTrial(){
+		$.post("/register/onTrial",function(result){
+			if(result.status) {
+				alert("试用成功,试用时间截止至:"+result.time);
+				document.getElementById("register").style.display="none";
+				document.getElementById("fade").style.display="none";
 			}
 		 });
 	}

@@ -35,7 +35,7 @@ public class RegisterServiceImpl implements IRegisterService {
 				//已正常注册
 				return "success";
 			}
-			if(null== register.getTrialTime() || StringUtil.isEmpty(register.getTrialTime().toString())) {
+			if(null == register.getTrialTime() || StringUtil.isEmpty(register.getTrialTime().toString())) {
 				//未点击试用
 				return "unuse";
 			}
@@ -43,23 +43,27 @@ public class RegisterServiceImpl implements IRegisterService {
 				//试用期已到
 				return "expired";
 			}
-			return null;
+			return "trialing";
 		} catch(Exception e) {
 			return null;
 		}
 	}
 	
 	@Override
-	public boolean register(Register register) {
+	public boolean register(String secretKey) {
 		try {
-			if(StringUtil.isEmpty(register.getSecretKey())) {
+			if(StringUtil.isEmpty(secretKey)) {
 				return false;
 			}
+			Register register = registerRepository.findRegister();
 			String key = encoderByMd5(register.getCompanyName());
-			if(key.equals(register.getSecretKey())) {
+			if(secretKey.equals(key)) {
+				register.setSecretKey(key);
 				register.setRegisterTime(new Date());
 				registerRepository.save(register);
 				return true;
+			} else {
+				System.out.println("sys key="+key);
 			}
 			return false;
 		} catch(Exception e) {
@@ -68,18 +72,20 @@ public class RegisterServiceImpl implements IRegisterService {
 	}
 	
 	@Override
-	public String onTrial(Register register) {
+	public String onTrial() {
+		Register register = registerRepository.findRegister();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		if(register.getTrialTime().getTime()<new Date().getTime()) {
-			//试用期已到
-			return "expired";
+		if(null == register.getTrialTime() || "".equals(register.getTrialTime().toString())) {
+			register.setTrialTime(getForwardMoth());
+			registerRepository.save(register);
+			return format.format(register.getTrialTime());
 		}
 		if(StringUtil.isNotEmpty(register.getTrialTime().toString())) {
 			//已试用，不允许再次试用
 			return format.format(register.getTrialTime());
 		}
-		register.setTrialTime(getForwardMoth());
-		return format.format(register.getTrialTime());
+		
+		return null;
 	}
 
 	

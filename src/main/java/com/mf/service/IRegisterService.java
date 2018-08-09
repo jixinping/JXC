@@ -1,6 +1,5 @@
 package com.mf.service;
 
-import com.mf.entity.Register;
 
 public interface IRegisterService {
 
@@ -13,16 +12,16 @@ public interface IRegisterService {
 	
 	/**
 	 * 注册
-	 * @param register
+	 * @param secretKey
 	 * @return
 	 */
-	boolean register(Register register);
+	boolean register(String secretKey);
 	
 	/**
 	 * 试用
 	 * @param register
 	 * @return
 	 */
-	String onTrial(Register register);
+	String onTrial();
 	
 }

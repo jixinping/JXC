@@ -19,16 +19,31 @@ public class RegisterController {
 	@Resource
 	private IRegisterService registerService;
 
-	
 	@ResponseBody
 	@PostMapping("/registerTest")
-	public Map<String, String> registerTest(HttpSession session)throws Exception{
+	public Map<String, String> registerTest()throws Exception{
 		String value = registerService.registerTest();
 		Map<String, String> map = new HashMap<>();
 		map.put("status", value);
 		return map;
 	}
 	
+	@ResponseBody
+	@PostMapping("/register")
+	public Map<String, Object> register(String secretKey) {
+		boolean flag = registerService.register(secretKey);
+		Map<String, Object> map = new HashMap<>();
+		map.put("status", flag);
+		return map;
+	}
 	
-	
+	@ResponseBody
+	@PostMapping("/onTrial")
+	public Map<String, Object> onTrial() {
+		String str = registerService.onTrial();
+		Map<String, Object> map = new HashMap<>();
+		map.put("status", true);
+		map.put("time", str);
+		return map;
+	}
 }
