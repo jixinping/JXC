@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +17,7 @@ import com.mf.service.IRegisterService;
 public class RegisterController {
 	@Resource
 	private IRegisterService registerService;
-
+	
 	@ResponseBody
 	@PostMapping("/registerTest")
 	public Map<String, String> registerTest()throws Exception{

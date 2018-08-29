@@ -22,8 +22,6 @@ canvas{z-index:-1;position:absolute;}
 	    dotColor: '#5cbdaa',
 	    lineColor: '#5cbdaa'
 	  });
-	 
-	  registerTest();
 	  $("#loginBtn").click(function(){
 		  $.post("/user/login",{userName:$("#userName").val(),password:$("#password").val(),"imageCode":$("#imageCode").val()},function(result){
 			 if(result.success){
@@ -53,7 +51,7 @@ canvas{z-index:-1;position:absolute;}
 		  });
 		  
 	  });
-	  
+	  registerTest();
 	});
 	
 	function registerTest() {
@@ -107,8 +105,8 @@ canvas{z-index:-1;position:absolute;}
 <body>
 <dl class="admin_login">
  <dt>
-  <strong>进销存管理系统</strong>
-  <em>Lnvoicing Management System</em>
+  <strong>久盈进销存管理系统</strong>
+  <em>JY Lnvoicing Management System</em>
  </dt>
  <dd class="user_icon">
   <input type="text" id="userName" placeholder="账号" class="login_txtbx"/>
