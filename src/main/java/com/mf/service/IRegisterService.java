@@ -24,4 +24,10 @@ public interface IRegisterService {
 	 */
 	String onTrial();
 	
+	/**
+	 * 获取公司名称
+	 * @return
+	 */
+	String getCompanyName();
+	
 }

@@ -88,6 +88,15 @@ public class RegisterServiceImpl implements IRegisterService {
 		return null;
 	}
 
+	@Override
+	public String getCompanyName() {
+		try {
+			Register register = registerRepository.findRegister();
+			return register.getCompanyName();
+		} catch(Exception e) {
+			return null;
+		}
+	}
 	
 	private String encoderByMd5(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException{
 		MessageDigest md5=MessageDigest.getInstance("MD5");
